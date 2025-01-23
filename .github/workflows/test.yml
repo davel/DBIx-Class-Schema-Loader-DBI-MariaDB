@@ -1,0 +1,63 @@
+name: Tests
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        perl: ['5.38', '5.36', '5.34', '5.30', '5.26', '5.20']
+    name: Testing with Perl ${{ matrix.perl }}
+    services:
+      mariadb:
+        image: mariadb:latest
+        ports:
+          - 3306
+        env:
+          MYSQL_USER: user
+          MYSQL_PASSWORD: topsecret
+          MYSQL_DATABASE: dbix_mariadb_test
+          MYSQL_ROOT_PASSWORD: topsecret
+    needs: build
+    steps:
+      - name: Grab release tarball
+        uses: actions/download-artifact@v4
+        with:
+          name: release-tarball
+      - run: tar xzf m.tar.gz --strip 1
+      - name: Set up perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl }}
+      - run: perl -V
+      - run: cpanm --quiet --notest --installdeps .
+      - run: perl Makefile.PL
+      - run: make
+      - env:
+          DBICTEST_MYSQL_DSN: "dbi:MariaDB:database=dbix_mariadb_test;host=127.0.0.1;port=${{ job.services.mariadb.ports[3306] }}"
+          DBICTEST_MYSQL_USER: "user"
+          DBICTEST_MYSQL_PASS: "topsecret"
+        run: make test
+      - run: prove -r xt/
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: ['ubuntu-latest']
+        perl: [ '5.38' ]
+      max-parallel: 2
+    name: CPAN build ${{ matrix.perl }} on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up perl
+        uses: shogo82148/actions-setup-perl@v1
+        with:
+          perl-version: ${{ matrix.perl }}
+      - run: perl -V
+      - run: cpanm --quiet --notest Dist::Zilla
+      - run: dzil authordeps | cpanm --quiet --notest
+      - run: dzil build
+      - run: mv DBIx-Class-Schema-Loader-DBI-MariaDB-*.tar.gz m.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          path: m.tar.gz
+          name: release-tarball
