@@ -20,7 +20,8 @@ DBIx::Class::Schema::Loader::DBI::MariaDB - DBIx::Class::Schema::Loader::DBI Mar
 
 =head1 DESCRIPTION
 
-See L<DBIx::Class::Schema::Loader> and L<DBIx::Class::Schema::Loader::Base>.
+MariaDB support for L<DBIx::Class::Schema::Loader>. Be sure to connect to your
+database using L<DBD::MariaDB> (not L<DBD::mysql>).
 
 Forked from L<DBIx::Class::Schema::Loader::DBI::mysql> to better support
 MariaDB.
