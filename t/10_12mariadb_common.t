@@ -1,6 +1,3 @@
-use DBIx::Class::Schema::Loader::Optional::Dependencies
-    -skip_all_without => 'test_rdbms_mysql';
-
 use strict;
 use warnings;
 use Test::More;
@@ -21,6 +18,10 @@ my $dsn         = $ENV{DBICTEST_MYSQL_DSN} || '';
 my $user        = $ENV{DBICTEST_MYSQL_USER} || '';
 my $password    = $ENV{DBICTEST_MYSQL_PASS} || '';
 my $test_innodb = $ENV{DBICTEST_MYSQL_INNODB} || 0;
+
+if ($dsn eq "") {
+    plan skip_all => 'Environment variable DBICTEST_MYSQL_DSN is required to run this test.';
+}
 
 my $skip_rels_msg = 'You need to set the environment variable DBICTEST_MYSQL_INNODB=1 to test relationships.';
 
