@@ -37,6 +37,7 @@ jobs:
           DBICTEST_MYSQL_USER: "user"
           DBICTEST_MYSQL_PASS: "topsecret"
         run: make test
+      - run: cpanm --quiet --notest --installdeps --with-develop .
       - run: prove -r xt/
   build:
     runs-on: ${{ matrix.os }}
