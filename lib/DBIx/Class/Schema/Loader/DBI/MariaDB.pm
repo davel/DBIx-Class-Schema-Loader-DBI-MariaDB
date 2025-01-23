@@ -1,4 +1,4 @@
-package DBIx::Class::Schema::Loader::DBI::mysql;
+package DBIx::Class::Schema::Loader::DBI::MariaDB;
 
 use strict;
 use warnings;
@@ -12,15 +12,18 @@ use DBIx::Class::Schema::Loader::Utils qw/sigwarn_silencer/;
 use namespace::clean;
 use DBIx::Class::Schema::Loader::Table ();
 
-our $VERSION = '0.07052';
+our $VERSION = '1.0.0';
 
 =head1 NAME
 
-DBIx::Class::Schema::Loader::DBI::mysql - DBIx::Class::Schema::Loader::DBI mysql Implementation.
+DBIx::Class::Schema::Loader::DBI::MariaDB - DBIx::Class::Schema::Loader::DBI MariaDB Implementation.
 
 =head1 DESCRIPTION
 
 See L<DBIx::Class::Schema::Loader> and L<DBIx::Class::Schema::Loader::Base>.
+
+Forked from L<DBIx::Class::Schema::Loader::DBI::mysql> to better support
+MariaDB.
 
 =cut
 
@@ -62,6 +65,7 @@ sub _show_databases {
 sub _system_schemas {
     my $self = shift;
 
+    # Schema still called "mysql", https://mariadb.com/kb/en/the-mysql-database-tables/
     return ($self->next::method(@_), 'mysql');
 }
 
