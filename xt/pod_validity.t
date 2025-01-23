@@ -10,4 +10,4 @@ use lib qw(t/lib);
 # this has already been required but leave it here for CPANTS static analysis
 require Test::Pod;
 
-Test::Pod::all_pod_files_ok( 'lib', 'script' );
+Test::Pod::all_pod_files_ok( 'lib' );

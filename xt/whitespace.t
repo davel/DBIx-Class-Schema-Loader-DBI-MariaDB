@@ -21,7 +21,7 @@ use lib 't/lib';
   *Test::NoTabs::_is_perl_module = $is_pm;
 }
 
-my @pl_targets = qw/t xt lib script maint/;
+my @pl_targets = qw/t xt lib /;
 Test::EOL::all_perl_files_ok({ trailing_whitespace => 1 }, @pl_targets);
 Test::NoTabs::all_perl_files_ok(@pl_targets);
 

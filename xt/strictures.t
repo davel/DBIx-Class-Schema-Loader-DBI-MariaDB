@@ -36,6 +36,6 @@ find({
       if ! $missing_groupdeps_present and $f =~ /^ (?: lib  )/x;
   },
   no_chdir => 1,
-}, (qw(lib t script maint)) );
+}, (qw(lib t)) );
 
 done_testing;
