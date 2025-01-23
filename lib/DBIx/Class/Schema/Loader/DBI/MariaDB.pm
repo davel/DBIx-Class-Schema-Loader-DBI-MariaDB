@@ -385,9 +385,13 @@ sub _view_definition {
 =head1 SEE ALSO
 
 L<DBIx::Class::Schema::Loader>, L<DBIx::Class::Schema::Loader::Base>,
-L<DBIx::Class::Schema::Loader::DBI>
+L<DBIx::Class::Schema::Loader::DBI>, L<DBIx::Class::Schema::Loader::DBI::mysql>
 
 =head1 AUTHORS
+
+Dave Lambley <dave@lambley.me.uk>
+
+Martin Renvoize <martin.renvoize@ptfs-europe.com>
 
 See L<DBIx::Class::Schema::Loader/AUTHORS>.
 
