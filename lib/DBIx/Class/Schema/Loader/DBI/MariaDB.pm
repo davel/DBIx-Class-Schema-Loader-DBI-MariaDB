@@ -296,21 +296,23 @@ sub _extra_column_info {
     my ($self, $table, $col, $info, $dbi_info) = @_;
     my %extra_info;
 
-    if ($dbi_info->{mysql_is_auto_increment}) {
+    if ($dbi_info->{mariadb_is_auto_increment}) {
         $extra_info{is_auto_increment} = 1
     }
-    if ($dbi_info->{mysql_type_name} =~ /\bunsigned\b/i) {
+    if ($dbi_info->{mariadb_type_name} =~ /\bunsigned\b/i) {
         $extra_info{extra}{unsigned} = 1;
     }
-    if ($dbi_info->{mysql_values}) {
-        $extra_info{extra}{list} = $dbi_info->{mysql_values};
+
+    # XXX Not currently documented by DBD::MariaDB
+    if ($dbi_info->{mariadb_values}) {
+        $extra_info{extra}{list} = $dbi_info->{mariadb_values};
     }
 
     # TODO MariaDB docs say that the precision may be specified inside the
     # brackets.
     if ((not blessed $dbi_info) # isa $sth
         && $dbi_info->{COLUMN_DEF}      =~ m/^current_timestamp(?:\(\))?$/i
-        && $dbi_info->{mysql_type_name} =~ m/^(?:timestamp|datetime)$/i) {
+        && $dbi_info->{mariadb_type_name} =~ m/^(?:timestamp|datetime)$/i) {
 
         my $current_timestamp = 'current_timestamp';
         $extra_info{default_value} = \$current_timestamp;
