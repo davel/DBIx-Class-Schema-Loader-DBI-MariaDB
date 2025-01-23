@@ -43,7 +43,7 @@ EOF
 
 close $fh;
 
-system $^X, 'script/dbicdump', $config_file;
+system 'dbicdump', $config_file;
 
 is $? >> 8, 0,
     'dbicdump executed successfully';

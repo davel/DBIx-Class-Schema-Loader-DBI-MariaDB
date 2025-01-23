@@ -88,8 +88,7 @@ sub _dump_directly {
 sub _dump_dbicdump {
     my %tdata = @_;
 
-    # use $^X so we execute ./script/dbicdump with the same perl binary that the tests were executed with
-    my @cmd = ($^X, qw(script/dbicdump));
+    my @cmd = (qw(dbicdump));
 
     $tdata{options}{quiet} = 1 unless exists $tdata{options}{quiet};
 
